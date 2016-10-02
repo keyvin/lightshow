@@ -1,0 +1,11 @@
+
+CMD           #frames in effect  R          G         B
+XX            XXXXXXXXX          XXXXXXX   XXXXXXX   XXXXXXX
+
+00 up	      0-256		 0-128      0-128     0-128
+01 down
+10 set
+11 reserved
+
+0-128 * 2
+
