@@ -190,7 +190,9 @@ void MainWindow::saveTable() {
         row_counter++;
 
     }
-
+    if (row_counter > 0){
+        current_program->getHexAt(0);
+    }
 
 
 
@@ -271,8 +273,10 @@ void MainWindow::onPlay(){
 
 }
 void MainWindow::advanceFrame(){
-    if (playing == true)
+    if (playing == true){
+
         onForward();
 
+    }
 
 }

@@ -16,7 +16,7 @@ typedef struct PIXEL {
 
 typedef struct PROGRAM {
     mode type;
-    int frames;
+    quint8 frames;
     quint8 R;
     quint8 G;
     quint8 B;

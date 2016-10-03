@@ -44,7 +44,51 @@ QStringList Program::getCommandStringsAt(int offset){
 
 QString Program::getHexAt(int offset){
     QString ret;
+
+    //C   F     8F  8R    16R  G     24G  B
+    //000 00000 000 00000 00   000000 0   0000000
+    command c = commands.at(offset);
+
+    quint8 hi = 0;
+    quint8 frames = 0;
+    quint8 tmp = 0;
+    quint8 second = 0;
+    quint8 third = 0;
+    quint8 fourth = 0;
+
+    switch (c.type) {
+       case SET:
+        hi = 0x00;
+        break;
+       case INCREMENT:
+        hi = 0x01;
+        break;
+       case DECREMENT:
+        hi = 0x02;
+        break;
+       case NOOP:
+        hi = 0x03;
+        break;
+    }
+    //left shift
+
+
+
+
+
+
+    hi = (hi << 5) + (c.frames >> 3);
+    //high byte is set
+    second = (c.frames << 5) + (c.R >> 2);
+
+    third = (c.R << 6) + (c.G >> 3);
+
+    //high bit of  set
+    fourth = (c.G << 7) + c.B;
+
     return ret;
+
+
 }
 
 bool Program::addCommand(QStringList to_add){
@@ -62,7 +106,7 @@ bool Program::addCommand(QStringList to_add){
     else if (to_add.at(0) == "DEC")
         working.type = DECREMENT;
     else if (to_add.at(0) == "NOOP")
-        working.type = NOOP
+        working.type = NOOP;
     else {
 
         return (false); // just skip this row...
@@ -72,7 +116,7 @@ bool Program::addCommand(QStringList to_add){
     work_string =  to_add.at(1);
 
     //wrap in a try catch!
-    working.frames = work_string.toInt();
+    working.frames = (quint8 ) work_string.toInt();
 
     work_string = to_add.at(2);
     working.R = work_string.toInt();
@@ -145,4 +189,9 @@ pixel Program::returnValueAtFrame(quint32 target_frame){
     return value;
 
 }
+
+
+
+
+
 
