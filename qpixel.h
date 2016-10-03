@@ -4,6 +4,7 @@
 #include <qwidget>
 #include <qlabel>
 #include <qimage>
+#include "program.h"
 
 class QPixel : public QLabel
 {
@@ -16,10 +17,11 @@ public:
     int group_number;
     bool selected;
     QImage *image;
-
+    pixel value;
     ~QPixel();
     void changeGroup(int);
     void updatePixMap();
+    void setColor(pixel);
 
 signals:
     void clicked(int );

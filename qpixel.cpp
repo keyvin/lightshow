@@ -33,6 +33,13 @@ void QPixel::changeGroup(int new_group){
     return;
 }
 
+void QPixel::setColor(pixel p){
+    value = p;
+    updatePixMap();
+
+
+}
+
 void QPixel::updatePixMap(){
     if (group_number == -1){
         image->fill(QColor::fromRgb(0,0,0));
@@ -42,7 +49,7 @@ void QPixel::updatePixMap(){
 
     QFont font( "Helvetica" );
     font.setPointSize( 12 );
-
+    image->fill(QColor::fromRgb(value.R, value.G, value.B));
     QPainter brush;
 
     brush.begin(image);

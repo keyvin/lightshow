@@ -5,7 +5,14 @@
 #include <qlist>
 #include <qobject>
 #include <qstringlist>
-typedef enum MODE { SET, INCREMENT, DECREMENT } mode;
+typedef enum MODE { SET, INCREMENT, DECREMENT, NOOP } mode;
+
+typedef struct PIXEL {
+    quint8 R;
+    quint8 G;
+    quint8 B;
+
+} pixel;
 
 typedef struct PROGRAM {
     mode type;
@@ -34,7 +41,7 @@ public:
     QString getHexAt(int);
 
     bool addCommand(QStringList);
-
+    pixel returnValueAtFrame(quint32 );
     void clear();
 
 };

@@ -60,6 +60,16 @@ MainWindow::MainWindow(QWidget *parent) :
     //initial program set up
     program_map.insert(0, current_program);
 
+    //bind forward button
+    QObject::connect(ui->forwardButton, SIGNAL(clicked(bool)), this, SLOT(onForward()));
+    //bind backwards button
+    QObject::connect(ui->backwardButton, SIGNAL(clicked(bool)), this, SLOT(onBackward()));
+    //bind play button
+    QObject::connect(ui->playButton, SIGNAL(clicked(bool)), this, SLOT(onPlay() ));
+    playing = false;
+    QObject::connect(&play_timer, SIGNAL(timeout()), this, SLOT(advanceFrame()));
+
+    play_timer.start(34);
 
 }
 
@@ -211,4 +221,58 @@ void MainWindow::deleteGroup(){
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+//Roll back frame by 2, then call on forward
+void MainWindow::onBackward() {
+    if (frame == 1)
+        return;
+    else {
+        frame = frame -2;
+        onForward();
+    }
+}
+
+void MainWindow::onForward(){
+
+    //increment frame and redraw pixels
+    pixel value;
+    frame++;
+    //calculate pixel color for each group
+    Program *prog = NULL;
+    QList<int> groups;
+    groups = program_map.keys();
+    for (int a = 0; a < groups.length(); a++){
+        prog = program_map.value(groups.at(a));
+        value = prog->returnValueAtFrame(frame);
+        for (int b = 0; b < pixels.length();b++) {
+            if (pixels.at(b)->group_number == a){
+                pixels.at(b)->setColor(value);
+            }
+
+        }
+
+    }
+    ui->frameLabel->setText(QString::number(frame));
+
+
+}
+
+void MainWindow::onPlay(){
+    if (playing == false){
+        ui->playButton->setText("Stop");
+        playing = true;
+        play_timer.start(34);
+    }
+    else if (playing == true){
+        ui->playButton->setText("Play");
+        playing = false;
+    }
+
+}
+void MainWindow::advanceFrame(){
+    if (playing == true)
+        onForward();
+
+
 }

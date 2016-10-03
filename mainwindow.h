@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QList>
 #include <QMap>
+#include <QTimer>
 #include "qpixel.h"
 #include "program.h"
 
@@ -31,13 +32,18 @@ public:
     Program *current_program;
     void saveTable();
     void loadTable();
+    QTimer play_timer;
+    bool playing;
 
 public slots:
     void pixelClicked(int);
     void createGroup();
     void deleteGroup();
     void selectGroup();
-
+    void onForward();
+    void onBackward();
+    void onPlay();
+    void advanceFrame();
 
 private:
     Ui::MainWindow *ui;

@@ -25,7 +25,15 @@ QStringList Program::getCommandStringsAt(int offset){
     if (current.type == SET) {
         command_strings.append("SET");
     }
-
+    else if (current.type == INCREMENT) {
+        command_strings.append("INC");
+    }
+    else if (current.type == DECREMENT) {
+        command_strings.append("DEC");
+    }
+    else if (current.type == NOOP) {
+        command_strings.append("NOOP");
+    }
     command_strings.append(QString::number(current.frames));
     command_strings.append(QString::number(current.R));
     command_strings.append(QString::number(current.G));
@@ -49,6 +57,17 @@ bool Program::addCommand(QStringList to_add){
 
     if (to_add.at(0) == "SET")
         working.type = SET;
+    else if (to_add.at(0) == "INC")
+        working.type = INCREMENT;
+    else if (to_add.at(0) == "DEC")
+        working.type = DECREMENT;
+    else if (to_add.at(0) == "NOOP")
+        working.type = NOOP
+    else {
+
+        return (false); // just skip this row...
+
+    }
 
     work_string =  to_add.at(1);
 
@@ -75,4 +94,55 @@ void Program::clear(){
     commands.clear();
 }
 
+pixel Program::returnValueAtFrame(quint32 target_frame){
+    quint32 frame_counter = 1;
+    quint32 next_command = 1;
+    int current_command = 0;
+    pixel value;
+    value.R = 0;
+    value.G = 0;
+    value.B = 0;
+
+    if (commands.length() == 0)
+        return (value);
+
+    command current;
+
+    //
+    while (frame_counter < target_frame) {
+        if (frame_counter == next_command){
+            current = commands.at(current_command);
+            next_command = frame_counter + current.frames;
+            current_command++;
+            if (current_command == commands.length())
+                current_command = 0;
+        }
+        //execute current command
+        if (current.type == SET){
+            value.R = current.R;
+            value.G = current.G;
+            value.B = current.B;
+
+        }
+        else if (current.type == INCREMENT){
+            value.R = value.R + current.R;
+            value.G = value.G + current.G;
+            value.B = value.B + current.B;
+        }
+        else if (current.type == DECREMENT){
+            value.R = value.R - current.R;
+            value.G = value.G - current.G;
+            value.B = value.B - current.B;
+        }
+        else{
+            //nothing
+
+        }
+
+
+        frame_counter++;
+    }
+    return value;
+
+}
 
