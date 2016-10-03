@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     pixel.cpp \
-    qpixel.cpp
+    qpixel.cpp \
+    program.cpp
 
 HEADERS  += mainwindow.h \
     pixel.h \
-    qpixel.h
+    qpixel.h \
+    program.h
 
 FORMS    += mainwindow.ui

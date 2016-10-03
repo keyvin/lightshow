@@ -7,6 +7,7 @@
 #include <QList>
 #include <QMap>
 #include "qpixel.h"
+#include "program.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,10 @@ public:
     void updatePixelLabel();
     QMap<QString, QList<int> *> pixel_groups;
     int group_counter;
+    QMap<int, Program *> program_map; //maps groups to their program
+    Program *current_program;
+    void saveTable();
+    void loadTable();
 
 public slots:
     void pixelClicked(int);

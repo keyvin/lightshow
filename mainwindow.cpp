@@ -55,6 +55,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->group_list->insertItem(0, f);
     ui->group_list->setCurrentItem(0);
     QObject::connect(ui->group_list, SIGNAL(itemSelectionChanged()), this, SLOT(selectGroup()));
+
+    current_program = new Program();
+    //initial program set up
+    program_map.insert(0, current_program);
+
+
 }
 
 void MainWindow::pixelClicked(int pixel) {
@@ -106,25 +112,93 @@ void MainWindow::updatePixelLabel(){
 
 void MainWindow::selectGroup(){
     QString selection;
+    saveTable();
+
     selection = ui->group_list->currentItem()->text();
     active_group = pixel_groups.value(selection);
     //TODO - load commands if they exist. Unlock
     updatePixelLabel();
-    if (active_group->length() == 0)
-        ui->commandTable->setDisabled(true);
-    else
+
+
+    //TODO -- something here to do.
+
+
         ui->commandTable->setDisabled(false);
+        current_program = program_map.value(selection.toInt());
+        loadTable();
+
+
     return;
+}
+
+void MainWindow::loadTable() {
+    QStringList row;
+    int working;
+    //clear all rows
+    ui->commandTable->setRowCount(0);
+    ui->commandTable->setRowCount(20);
+    //get current group
+    working = ui->group_list->currentItem()->text().toInt();
+
+    current_program = program_map.value(working);
+
+    //program is empty
+    if (!current_program->getLength())
+        return;
+
+    for (int working = 0; working < current_program->getLength(); working++){
+        row = current_program->getCommandStringsAt(working);
+        ui->commandTable->insertRow(working);
+        //funrolled loops lol - definitely not laziness
+        ui->commandTable->setItem(working, 0, new QTableWidgetItem(row.at(0)));
+        ui->commandTable->setItem(working, 1, new QTableWidgetItem(row.at(1)));
+        ui->commandTable->setItem(working, 2, new QTableWidgetItem(row.at(2)));
+        ui->commandTable->setItem(working, 3, new QTableWidgetItem(row.at(3)));
+        ui->commandTable->setItem(working, 4, new QTableWidgetItem(row.at(4)));
+
+
+   }
+   return;
+}
+
+void MainWindow::saveTable() {
+    QString working;
+    QStringList list;
+    int row_counter = 0;
+    current_program->clear();
+    //TODO Should be able to insert rows. Should be able to delete rows
+    while (ui->commandTable->item(row_counter, 0) != NULL){
+        working = ui->commandTable->item(row_counter, 0)->text();
+        list.push_back(working);
+        //get other table values
+        for (int i = 1; i < 5; i++ ){
+            list.push_back(ui->commandTable->item(row_counter, i)->text());
+
+        }
+        current_program->addCommand(list);
+        list.clear();
+        row_counter++;
+
+    }
+
+
+
+
+
+
+
 }
 
 void MainWindow::createGroup(){
     QString text;
     text = QString::number(group_counter);
     ui->group_list->insertItem(0, text);
-    group_counter++;
     active_group = new QList<int>();
     pixel_groups.insert(text, active_group);
     ui->commandTable->setDisabled(false);
+    current_program = new Program();
+    program_map.insert(group_counter, current_program);
+    group_counter++;
     return;
 }
 
