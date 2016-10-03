@@ -272,11 +272,26 @@ void MainWindow::onPlay(){
     }
 
 }
+
+void MainWindow::genProgramString() {
+
+    QList<QString> groups;
+
+    groups = pixel_groups.keys();
+
+    //generate table
+
+
+
+
+
+}
+
+
 void MainWindow::advanceFrame(){
     if (playing == true){
-
         onForward();
-
     }
 
 }
+

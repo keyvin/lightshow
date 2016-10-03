@@ -1,4 +1,5 @@
 #include "program.h"
+#include <cstring>
 
 Program::Program()
 {
@@ -43,6 +44,7 @@ QStringList Program::getCommandStringsAt(int offset){
 }
 
 QString Program::getHexAt(int offset){
+    char buffer[100];
     QString ret;
 
     //C   F     8F  8R    16R  G     24G  B
@@ -85,7 +87,8 @@ QString Program::getHexAt(int offset){
 
     //high bit of  set
     fourth = (c.G << 7) + c.B;
-
+    sprintf(buffer, "\\x%2X\\x%2X\\x%2X\\x%2X", hi, second, third, fourth);
+    ret = buffer;
     return ret;
 
 

@@ -34,6 +34,7 @@ public:
     void loadTable();
     QTimer play_timer;
     bool playing;
+    void genProgramString();
 
 public slots:
     void pixelClicked(int);
