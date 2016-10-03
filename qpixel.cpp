@@ -6,16 +6,18 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
-
+#include <qfont>
 using namespace std;
 QPixel::QPixel(const int& pixnum, QWidget* parent)
     : QLabel(parent)
 {
     pixel_number = pixnum;
+    group_number = -1;
     image = new QImage(50, 50, QImage::Format_ARGB32_Premultiplied);
     image->fill(QColor::fromRgb(0,0,0));
     setPixmap(QPixmap::fromImage(*image));
     selected = false;
+
 }
 
 QPixel::~QPixel() {
@@ -25,13 +27,42 @@ QPixel::~QPixel() {
 }
 
 
+void QPixel::changeGroup(int new_group){
+    group_number = new_group;
+    updatePixMap();
+    return;
+}
+
+void QPixel::updatePixMap(){
+    if (group_number == -1){
+        image->fill(QColor::fromRgb(0,0,0));
+        setPixmap(QPixmap::fromImage(*image));
+        return;
+    }
+
+    QFont font( "Helvetica" );
+    font.setPointSize( 12 );
+
+    QPainter brush;
+
+    brush.begin(image);
+    brush.setFont( font );
+
+    brush.setPen(QColor(255,55,0));
+    brush.drawText(5,50, QString::number(group_number));
+    brush.end();
+    this->setPixmap(QPixmap::fromImage(*image));
+    this->repaint();
+    //printf("out %d\n", pixel_number);
+    return;
+}
 
 void QPixel::mousePressEvent(QMouseEvent* event)
 {
 
     QPainter brush;
 
-    if (selected == false) {
+    /*if (selected == false) {
         brush.begin(image);
         selected = true;
         brush.setPen(QColor(255,55,0));
@@ -49,7 +80,7 @@ void QPixel::mousePressEvent(QMouseEvent* event)
         selected = false;
         this->repaint();
      //   cout >> "Was clicked when true";
-    }
+    }*/
 
-    emit clicked();
+    emit clicked(pixel_number);
 }
