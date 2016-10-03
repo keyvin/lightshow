@@ -66,6 +66,8 @@ void MainWindow::pixelClicked(int pixel) {
             active_group->removeAt(counter);
             updatePixelLabel();
             pixels.at(pixel)->changeGroup(-1);
+            if (active_group->length() == 0)
+                ui->commandTable->setDisabled(true);
             return;
 
             //if list is empty, deactivate command table. --TODO
@@ -83,6 +85,7 @@ void MainWindow::pixelClicked(int pixel) {
     updatePixelLabel();
     ui->group_list->currentItem()->text().toInt();
     pixels.at(pixel)->changeGroup(ui->group_list->currentItem()->text().toInt());
+    ui->commandTable->setDisabled(false);
 }
 
 void MainWindow::updatePixelLabel(){
@@ -105,7 +108,12 @@ void MainWindow::selectGroup(){
     QString selection;
     selection = ui->group_list->currentItem()->text();
     active_group = pixel_groups.value(selection);
+    //TODO - load commands if they exist. Unlock
     updatePixelLabel();
+    if (active_group->length() == 0)
+        ui->commandTable->setDisabled(true);
+    else
+        ui->commandTable->setDisabled(false);
     return;
 }
 
@@ -116,6 +124,7 @@ void MainWindow::createGroup(){
     group_counter++;
     active_group = new QList<int>();
     pixel_groups.insert(text, active_group);
+    ui->commandTable->setDisabled(false);
     return;
 }
 
