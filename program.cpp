@@ -81,9 +81,9 @@ QString Program::getHexAt(int offset){
 
     hi = (hi << 5) + (c.frames >> 3);
     //high byte is set
-    second = (c.frames << 5) + (c.R >> 2);
+    second = (c.frames << 5) + (c.R >> 3);
 
-    third = (c.R << 6) + (c.G >> 3);
+    third = (c.R << 6) + (c.G >> 1);
 
     //high bit of  set
     fourth = (c.G << 7) + c.B;

@@ -186,6 +186,7 @@ void MainWindow::saveTable() {
         list.push_back(working);
         //get other table values
         for (int i = 1; i < 5; i++ ){
+            if (ui->commandTable->item(row_counter, i))
             list.push_back(ui->commandTable->item(row_counter, i)->text());
 
         }
