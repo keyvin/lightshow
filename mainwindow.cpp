@@ -3,11 +3,15 @@
 #include "qpixel.h"
 #include <QStringList>
 #include <QString>
+#include <algorithm>
+#include <cstring>
+#include <cstdio>
 
 //TODO (leave off) - pop up error that pixel is in other group
 //TODO Lock unlock command table
 //Create "program" class for groups.
 
+#define NUM_PIXELS 30
 #define COLUMNS 4
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -70,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&play_timer, SIGNAL(timeout()), this, SLOT(advanceFrame()));
 
     play_timer.start(34);
-
+    QObject::connect(ui->doString, SIGNAL(clicked(bool)), this, SLOT(doString()));
 }
 
 void MainWindow::pixelClicked(int pixel) {
@@ -273,18 +277,79 @@ void MainWindow::onPlay(){
 
 }
 
-void MainWindow::genProgramString() {
+void MainWindow::doString() {
 
+    /*we are going to do something different for now
+     *
+     *
+     * Just going to preface each command with a byte that represents the pixel_number it applies to.
+     * When a new command is needed, it will seek through the upcoming commands, and wrap around
+     * if nothing found. Can come back to this crazy crazy idea of an optimized packer later. Jeesus christ.
+     * I seriously over-estimated my own abilities.
     QList<QString> groups;
-
+    QList<when_element> when_group_needs_more;
+    QList<int> what_command_for_group;
     groups = pixel_groups.keys();
-
+    //for each program - calculate when pixels when need commands
     //generate table
+    QList<pixel_element> pixels_list;
+    //generate pair
+    pixel_element e;
+
+    for (int i = 0; i < NUM_PIXELS; i++){
+        e.pixel = i;
+        e.frame = 1;
+        pixels.insert()
+    }
+
+    //populate the initial list of what will be needed next
+    for (int i = 0; i < group_counter; i++)
+    {
+       when_group_needs_more.append( program_map.value(i)->commands.at(0).frames);
+    }
+    //fetch group of pixel
+    pixels.at(0)->group_number;
+
+    //
+
+
+    //generate frame_command table
+
+    when_element wl[30];
+
+    while (true){
 
 
 
+    }
+*/  QString output;
+    QString tmp;
+    int command_counter = 0;
+    char buffer[8];
+    bool found = true;
+    while (true){
+        for (quint8 i=0; i < NUM_PIXELS; i++){
+            sprintf(buffer, "\\x%.2X", i);
+            tmp = buffer;
+            if (pixels.at(i)->group_number == -1)
+                continue; //always skip this poor neglected ungrouped pixel
+            int pix = pixels.at(i)->group_number;
+            int com_length = program_map.value(pix)->getLength();
+            if (command_counter < com_length){
+                found = true; //found another command, maybe there are more!
+                output = output + tmp + program_map.value(pixels.at(i)->group_number)->getHexAt(command_counter);
+            }
 
+        }
 
+        command_counter++;
+        if (found==false)
+            break; //exit the infinite loup.
+        found = false;
+
+    }
+
+    ui->plainTextEdit->insertPlainText(output);
 }
 
 

@@ -7,12 +7,25 @@
 #include <qstringlist>
 typedef enum MODE { SET, INCREMENT, DECREMENT, NOOP } mode;
 
+//used for generating program hex string
+typedef struct STRINGELEMENT{
+    int pixel;
+    int frame;
+} pixel_element;
+
 typedef struct PIXEL {
     quint8 R;
     quint8 G;
     quint8 B;
 
 } pixel;
+
+typedef struct WHEN {
+  int group_num;
+  int frame;
+
+
+} when_element;
 
 typedef struct PROGRAM {
     mode type;
@@ -27,9 +40,11 @@ class Program : QObject
     Q_OBJECT
 
 private:
-    QList<command> commands;
+
 
 public:
+
+    QList<command> commands;
     Program();
     //number of commands
     int getLength();

@@ -34,7 +34,7 @@ public:
     void loadTable();
     QTimer play_timer;
     bool playing;
-    void genProgramString();
+
 
 public slots:
     void pixelClicked(int);
@@ -45,7 +45,7 @@ public slots:
     void onBackward();
     void onPlay();
     void advanceFrame();
-
+    void doString();
 private:
     Ui::MainWindow *ui;
 };

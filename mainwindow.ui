@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
+    <width>798</width>
     <height>473</height>
    </rect>
   </property>
@@ -147,6 +147,29 @@
       <y>101</y>
       <width>111</width>
       <height>321</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="doString">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>20</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>To String</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>240</y>
+      <width>104</width>
+      <height>71</height>
      </rect>
     </property>
    </widget>
