@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qpixel.h"
+#include "serializer.h"
 #include <QStringList>
 #include <QString>
 #include <algorithm>
@@ -78,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     play_timer.start(34);
     QObject::connect(ui->doString, SIGNAL(clicked(bool)), this, SLOT(doString()));
+
+    QObject::connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(doSave()));
 }
 
 void MainWindow::pixelClicked(int pixel) {
@@ -115,7 +118,7 @@ void MainWindow::updatePixelLabel(){
     //generate string
     QString text = "Pixel(s) selected: ";
     int counter = 0;
-    for (counter = 0; counter < active_group->length(); counter ++){
+    for (counter = 0; counter <active_group->length(); counter ++){
         text = text + QString::number(active_group->at(counter));
         text = text + ",";
 
@@ -355,6 +358,12 @@ void MainWindow::doString() {
 
     ui->plainTextEdit->insertPlainText(output);
 }
+
+void MainWindow::doSave() {
+    Serializer s;
+    s.save(pixels, program_map);
+}
+
 
 
 void MainWindow::advanceFrame(){

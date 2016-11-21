@@ -5,6 +5,7 @@
 #include <qlist>
 #include <qobject>
 #include <qstringlist>
+#include <qmap>
 
 //Switched to full bytes. No more packing. Each command is now 40 bits/5bytes
 

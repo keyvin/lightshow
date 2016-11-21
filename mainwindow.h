@@ -46,6 +46,7 @@ public slots:
     void onPlay();
     void advanceFrame();
     void doString();
+    void doSave();
 private:
     Ui::MainWindow *ui;
 };

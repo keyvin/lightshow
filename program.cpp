@@ -78,7 +78,7 @@ QString Program::getHexAt(int offset){
 
 
 
-
+    /* totally unnessecary now
     hi = (hi << 5) + (c.frames >> 3);
     //high byte is set
     second = (c.frames << 5) + (c.R >> 3);
@@ -87,7 +87,9 @@ QString Program::getHexAt(int offset){
 
     //high bit of  set
     fourth = (c.G << 7) + c.B;
-    sprintf(buffer, "\\x%.2X\\x%.2X\\x%.2X\\x%.2X", hi, second, third, fourth);
+    */
+    //five bytes
+    sprintf(buffer, "\\x%.2X\\x%.2X\\x%.2X\\x%.2X\\x%.2X", hi, c.frames, c.R, c.G, c.B);
     ret = buffer;
     return ret;
 
