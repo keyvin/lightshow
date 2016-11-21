@@ -5,6 +5,10 @@
 #include <qlist>
 #include <qobject>
 #include <qstringlist>
+
+//Switched to full bytes. No more packing. Each command is now 40 bits/5bytes
+
+//This class holds the program data displayed in the table, and also generates the program string
 typedef enum MODE { SET, INCREMENT, DECREMENT, NOOP } mode;
 
 //used for generating program hex string
@@ -13,6 +17,7 @@ typedef struct STRINGELEMENT{
     int frame;
 } pixel_element;
 
+//Current Value of the PIXEL
 typedef struct PIXEL {
     quint8 R;
     quint8 G;
@@ -20,11 +25,11 @@ typedef struct PIXEL {
 
 } pixel;
 
+
+//What frame is the next command fetched
 typedef struct WHEN {
   int group_num;
   int frame;
-
-
 } when_element;
 
 typedef struct PROGRAM {
@@ -34,6 +39,7 @@ typedef struct PROGRAM {
     quint8 G;
     quint8 B;
 } command;
+
 
 class Program : QObject
 {

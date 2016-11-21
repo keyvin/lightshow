@@ -8,10 +8,14 @@
 #include <cstdio>
 #include <qfont>
 using namespace std;
+
+//QPixel holds the state of, and is also the widget.
 QPixel::QPixel(const int& pixnum, QWidget* parent)
     : QLabel(parent)
 {
     pixel_number = pixnum;
+
+    //Group Number represents the grouping of pixels
     group_number = -1;
     image = new QImage(50, 50, QImage::Format_ARGB32_Premultiplied);
     image->fill(QColor::fromRgb(0,0,0));
@@ -20,19 +24,21 @@ QPixel::QPixel(const int& pixnum, QWidget* parent)
 
 }
 
+//free heap memory
 QPixel::~QPixel() {
 
     //free image object
     delete image;
 }
 
-
+//Change the group number and re-draw
 void QPixel::changeGroup(int new_group){
     group_number = new_group;
     updatePixMap();
     return;
 }
 
+//Assign Color, redraw widget
 void QPixel::setColor(pixel p){
     value = p;
     updatePixMap();
@@ -40,6 +46,7 @@ void QPixel::setColor(pixel p){
 
 }
 
+//Redraws the widget.
 void QPixel::updatePixMap(){
     if (group_number == -1){
         image->fill(QColor::fromRgb(0,0,0));
@@ -63,6 +70,8 @@ void QPixel::updatePixMap(){
     //printf("out %d\n", pixel_number);
     return;
 }
+
+//emit the clicked option
 
 void QPixel::mousePressEvent(QMouseEvent* event)
 {

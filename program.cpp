@@ -141,6 +141,7 @@ void Program::clear(){
     commands.clear();
 }
 
+//Function computes RGB value at specific frame through
 pixel Program::returnValueAtFrame(quint32 target_frame){
     quint32 frame_counter = 1;
     quint32 next_command = 1;

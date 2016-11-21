@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     group_counter = 1;
 
+    //Create Pixels
     int counter = 0;
     for (counter = 0; counter < 30; counter++){
         ptr = new QPixel(counter);
@@ -35,15 +36,17 @@ MainWindow::MainWindow(QWidget *parent) :
                              this, SLOT(pixelClicked(int)));
         pixels.append(ptr);
     }
+
+    //Configure the command table
     ui->commandTable->setColumnCount(5);
     ui->commandTable->setColumnWidth(0,70);
     ui->commandTable->setColumnWidth(1,50);
     ui->commandTable->setColumnWidth(2,30);
     ui->commandTable->setColumnWidth(3,30);
     ui->commandTable->setColumnWidth(4,30);
-
     ui->commandTable->setRowCount(10);
 
+    //QStringList to hold the table header
     table_header << "Command" << "Frames" << "R" << "G" << "B";
     ui->commandTable->setHorizontalHeaderLabels(table_header);
     ui->commandTable->setDisabled(true);
